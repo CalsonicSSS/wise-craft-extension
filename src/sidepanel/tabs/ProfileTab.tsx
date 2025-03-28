@@ -7,6 +7,7 @@ import type { FilesStorageState } from '@/types/fileManagement';
 import { GenerationStage, type GenerationProgress } from '@/types/progressTracking';
 import { Trash2, Upload } from 'lucide-react';
 import { useRef, type ChangeEvent } from 'react';
+import { CreditManager } from '@/components/CreditManager';
 
 type ProfileTabProps = {
 	currentTabId: number | null;
@@ -222,6 +223,9 @@ const ProfileTab = ({
 
 			{/* This will take up remaining space */}
 			<div className='flex-grow'></div>
+
+			{/* Credit Manager */}
+			<CreditManager />
 
 			{/* Your Feedback & Rant Button at the very bottom */}
 			<Button

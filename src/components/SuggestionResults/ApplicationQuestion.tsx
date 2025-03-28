@@ -5,6 +5,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import type { FilesStorageState } from '@/types/fileManagement';
 import type { ApplicationQuestion, ExtractedJobPostingDetails } from '@/types/suggestionGeneration';
 import { formatDate } from '@/utils/coverletterFormatDownload';
+import { useStorage } from '@plasmohq/storage/hook';
 import { useMutation } from '@tanstack/react-query';
 import { CheckCircle, Copy, HelpCircle, Trash2 } from 'lucide-react';
 import { useState } from 'react';
@@ -27,7 +28,8 @@ const ApplicationQuestions = ({
 	const [question, setQuestion] = useState('');
 	const [additionalRequirements, setAdditionalRequirements] = useState('');
 	const [copyStates, setCopyStates] = useState<{ [key: string]: boolean }>({});
-
+	const [browserId] = useStorage("browserId")
+	
 	// Handle copy to clipboard
 	const handleCopy = (text: string, id: string) => {
 		navigator.clipboard.writeText(text);
@@ -45,6 +47,7 @@ const ApplicationQuestions = ({
 				additionalRequirements: additionalRequirements.trim() || undefined,
 				extractedJobPostingDetails,
 				storedFilesObj,
+				browserId,
 			});
 
 			// Save to local questions

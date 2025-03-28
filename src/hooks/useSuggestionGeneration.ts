@@ -7,6 +7,7 @@ import { TIER_ONE_USER_CREDIT_COUNT } from '@/constants/environments';
 import type { FilesStorageState } from '@/types/fileManagement';
 import { GenerationStage, type GenerationProgress } from '@/types/progressTracking';
 import type { FullSuggestionGeneration } from '@/types/suggestionGeneration';
+import { useStorage } from '@plasmohq/storage/hook';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
@@ -43,6 +44,7 @@ export const useSuggestionGenerationProcess = (storedFilesObj: FilesStorageState
 		string | null
 	>(null);
 	const [generationProgress, setGenerationProgress] = useState<GenerationProgress | null>(null);
+	const [browserId] = useStorage("browserId")
 
 	// Get the current tab ID when the hook initializes
 	useEffect(() => {
@@ -130,6 +132,7 @@ export const useSuggestionGenerationProcess = (storedFilesObj: FilesStorageState
 			const pageExtractedContent = await extractPageContentFromActiveTab();
 			const jobPostingEvaluationResponseResult = await evaluateJobPostingPageRequest(
 				pageExtractedContent.pageContent,
+				browserId
 			);
 
 			// STEP 2: Generate resume suggestions
@@ -141,6 +144,7 @@ export const useSuggestionGenerationProcess = (storedFilesObj: FilesStorageState
 			const resumeSuggestionsResponseResult = await generateResumeSuggestionRequest({
 				extractedJobPostingDetails: jobPostingEvaluationResponseResult.extracted_job_posting_details,
 				storedFilesObj,
+				browserId
 			});
 
 			// STEP 3: Generate cover letter
@@ -152,6 +156,7 @@ export const useSuggestionGenerationProcess = (storedFilesObj: FilesStorageState
 			const coverLetterResponseResult = await generateCoverLetterRequest({
 				extractedJobPostingDetails: jobPostingEvaluationResponseResult.extracted_job_posting_details,
 				storedFilesObj,
+				browserId
 			});
 
 			// STEP 4: Complete - combine all results into FullSuggestionGeneration

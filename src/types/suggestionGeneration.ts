@@ -16,6 +16,11 @@ export type ExtractedJobPostingDetails = {
 	other_additional_details: string;
 };
 
+export type JobPostingEvalRequestInputs = {
+	jobPostingPageContent: string;
+	browser_id: string;
+};
+
 export type JobPostingEvalResultResponse = {
 	is_job_posting: boolean;
 	extracted_job_posting_details: ExtractedJobPostingDetails;
@@ -26,6 +31,7 @@ export type JobPostingEvalResultResponse = {
 export type ResumeSuggestionGenerationRequestInputs = {
 	extracted_job_posting_details: ExtractedJobPostingDetails;
 	resume_doc: UploadedDocument;
+	browser_id: string;
 };
 
 export type ResumeSuggestion = {
@@ -44,6 +50,7 @@ export type CoverLetterGenerationRequestInputs = {
 	extracted_job_posting_details: ExtractedJobPostingDetails;
 	resume_doc: UploadedDocument;
 	supporting_docs?: UploadedDocument[];
+	browser_id: string;
 };
 
 export type CoverLetterGenerationResponse = {
@@ -70,6 +77,7 @@ export type ApplicationQuestionGenerationRequestInputs = {
 	supporting_docs?: UploadedDocument[];
 	additional_requirements?: string;
 	question: string;
+	browser_id: string;
 };
 
 export type ApplicationQuestionAnswerResponse = {
